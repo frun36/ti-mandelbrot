@@ -4,15 +4,22 @@
 <head>
     <title>Mandelbrot set</title>
     <script defer src="./main.js" type="module"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <canvas id="canvas" width="800" height="600"></canvas>
-    <p>
-        <input type="checkbox" id="wasm-checkbox"checked />
-        <label for="wasm-checkbox">Use WASM</label>
-    </p>
-    <p>Elapsed: <span id="elapsed-label"></span> ms</p>
+    <header>
+        <h1>Mandelbrot set</h1>
+    </header>
+    <article>
+        <canvas id="canvas" width="800" height="600"></canvas>
+        <p>
+            <input type="checkbox" id="wasm-checkbox" checked />
+            <label for="wasm-checkbox">Use WASM</label>
+        </p>
+        <p>Elapsed: <span id="elapsed-label"></span> ms</p>
+    </article>
 </body>
 
 </html>
