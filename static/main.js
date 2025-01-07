@@ -24,14 +24,15 @@ document.addEventListener("keydown", (event) => {
         case "ArrowLeft":
             xCenter -= 100 * scale;
             break;
-        case "I":
-        case "i":
-            scale *= 0.9;
-            break;
-        case "O":
-        case "o":
-            scale /= 0.9;
-            break;
+    }
+    draw();
+});
+
+document.addEventListener("wheel", (event) => {
+    if (event.deltaY > 0) {
+        scale *= 0.9;
+    } else if (event.deltaY < 0) {
+        scale /= 0.9;
     }
     draw();
 });
@@ -44,29 +45,23 @@ function draw() {
     document.getElementById('elapsed-label').innerHTML = elapsed.toFixed(2);
 }
 
-function colormap(value) {
-    const r = value * 255;
-    const g = value * 255;
-    const b = value * 255;
-    return [r, g, b];
-}
-
 function drawJS(ctx, width, height, scale, xCenter, yCenter) {
     const xMin = xCenter - 0.5 * cvs.width * scale;
     const yMin = yCenter - 0.5 * cvs.height * scale;
 
-    
+    let x0, y0, x, y;
     for (let xPx = 0; xPx < width; xPx++) {
         for (let yPx = 0; yPx < height; yPx++) {
-            const x0 = xPx * scale + xMin;
-            const y0 = yPx * scale + yMin;
+            x0 = xPx * scale + xMin;
+            y0 = yPx * scale + yMin;
             
             let x2 = 0;
             let y2 = 0;
             
             let it = 0;
             
-            let x = 0, y = 0;
+            x = 0;
+            y = 0;
 
             while (x2 + y2 <= 4 && it < itMax) {
                 y = 2 * x * y + y0;
@@ -76,12 +71,11 @@ function drawJS(ctx, width, height, scale, xCenter, yCenter) {
                 it++;
             }
 
-            const ratio = it / itMax;
-            const [r, g, b] = colormap(ratio);
             const px = (yPx * width + xPx) * 4;
-            imageData.data[px] = r;
-            imageData.data[px + 1] = g;
-            imageData.data[px + 2] = b;
+            const color = it == itMax ? 0 : 255;
+            imageData.data[px] = color;
+            imageData.data[px + 1] = color;
+            imageData.data[px + 2] = color;
             imageData.data[px + 3] = 255;
         }
     }
