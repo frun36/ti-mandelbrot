@@ -1,5 +1,10 @@
+import init from "./wasm/pkg/wasm.js"
+
 const cvs = document.getElementById('canvas');
 const ctx = cvs.getContext('2d');
+
+const wasm = await init();
+
 
 let xCenter = 0;
 let yCenter = 0;
@@ -7,8 +12,6 @@ let yCenter = 0;
 let scale = 0.001;
 
 const itMax = 300;
-
-const imageData = ctx.createImageData(cvs.width, cvs.height);
 
 document.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -25,7 +28,7 @@ document.addEventListener("keydown", (event) => {
             xCenter -= 100 * scale;
             break;
     }
-    draw();
+    handleDraw();
 });
 
 document.addEventListener("wheel", (event) => {
@@ -34,20 +37,32 @@ document.addEventListener("wheel", (event) => {
     } else if (event.deltaY < 0) {
         scale /= 0.9;
     }
-    draw();
+    handleDraw();
 });
 
-function draw() {
+function handleDraw() {
+    const useWasm = document.getElementById("wasm-checkbox").checked;
+
     const start = performance.now();
-    drawJS(ctx, cvs.width, cvs.height, scale, xCenter, yCenter);
+
+    if (useWasm) {
+        wasm.mandelbrot(ctx, cvs.width, cvs.height, scale, xCenter, yCenter, itMax);
+    } else {
+        mandelbrot(ctx, cvs.width, cvs.height, scale, xCenter, yCenter, itMax);
+    }
+
     const end = performance.now()
     const elapsed = end - start;
     document.getElementById('elapsed-label').innerHTML = elapsed.toFixed(2);
 }
 
-function drawJS(ctx, width, height, scale, xCenter, yCenter) {
-    const xMin = xCenter - 0.5 * cvs.width * scale;
-    const yMin = yCenter - 0.5 * cvs.height * scale;
+window.handleDraw = handleDraw;
+
+function mandelbrot(ctx, width, height, scale, xCenter, yCenter, itMax) {
+    const xMin = xCenter - 0.5 * width * scale;
+    const yMin = yCenter - 0.5 * height * scale;
+
+    const imageData = new ImageData(width, height);
 
     let x0, y0, x, y;
     for (let xPx = 0; xPx < width; xPx++) {
@@ -83,4 +98,4 @@ function drawJS(ctx, width, height, scale, xCenter, yCenter) {
     ctx.putImageData(imageData, 0, 0);
 }
 
-draw();
+handleDraw();

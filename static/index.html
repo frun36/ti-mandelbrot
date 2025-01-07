@@ -7,6 +7,10 @@
 
     <body>
         <canvas id="canvas" width="800" height="600"></canvas>
+        <p>
+            <input type="checkbox" id="wasm-checkbox" onchange="handleDraw()" checked />
+            <label for="wasm-checkbox">Use WASM</label>
+        </p>
         <p>Elapsed: <span id="elapsed-label"></span> ms</p>
     </body>
 </html>
