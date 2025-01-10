@@ -12,10 +12,6 @@ export default class Settings {
         this.useWasm = true;
     }
 
-    setUseWasm(b) {
-        this.useWasm = b;
-    }
-
     getCoords(x, y) {
         return [this.getXMin() + x * this.prescale / this.zoom,
         this.getYMin() + y * this.prescale / this.zoom,];
@@ -43,7 +39,7 @@ export default class Settings {
     zoomOutOn(x, y, ratio = 1.5) {
         this.xCenter = x;
         this.yCenter = y;
-
+``
         this.zoom = (this.zoom / ratio).toFixed(1);
     }
 
@@ -52,6 +48,7 @@ export default class Settings {
         this.zoom = $("#zoom-input").val();
         this.xCenter = $("#xcenter-input").val();
         this.yCenter = $("#ycenter-input").val();
+        this.useWasm = $("#wasm-checkbox").prop("checked");
     }
 
     show() {
@@ -59,5 +56,6 @@ export default class Settings {
         $("#zoom-input").val(this.zoom);
         $("#xcenter-input").val(this.xCenter);
         $("#ycenter-input").val(this.yCenter);
+        $("#wasm-checkbox").prop("checked", this.useWasm);
     }
 }

@@ -21,13 +21,8 @@ console.log("Initialized thread pool")
 const s = new Settings(cvs.width, cvs.height, 1000);
 s.show();
 
-$("#settings-form *").on("change", (e) => {
+$("#settings-form input").on("change", (e) => {
     s.read();
-    draw();
-});
-
-$("#wasm-checkbox").on("change", (e) => {
-    s.setUseWasm(e.target.checked);
     draw();
 });
 
@@ -101,6 +96,9 @@ function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
 
 function draw() {
     console.log("Drawing with", s.useWasm ? "WASM" : "JS");
+    console.debug(s);
+    ctx.fillStyle = "0xEEEEEE";
+    ctx.fillRect(0, 0, cvs.width, cvs.height);
 
     const start = performance.now();
 
@@ -113,6 +111,8 @@ function draw() {
 
     const imageData = new ImageData(data, cvs.width, cvs.height);
     ctx.putImageData(imageData, 0, 0);
+
+    console.log("Done");
 }
 
 draw();
