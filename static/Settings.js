@@ -26,7 +26,7 @@ export default class Settings {
     }
 
     getScale() {
-        return prescale / zoom;
+        return this.prescale / this.zoom;
     }
 
     zoomInOn(x, y, ratio = 1.5) {
@@ -39,16 +39,8 @@ export default class Settings {
     zoomOutOn(x, y, ratio = 1.5) {
         this.xCenter = x;
         this.yCenter = y;
-``
-        this.zoom = (this.zoom / ratio).toFixed(1);
-    }
 
-    read() {
-        this.itMax = $("#itmax-input").val();
-        this.zoom = $("#zoom-input").val();
-        this.xCenter = $("#xcenter-input").val();
-        this.yCenter = $("#ycenter-input").val();
-        this.useWasm = $("#wasm-checkbox").prop("checked");
+        this.zoom = (this.zoom / ratio).toFixed(1);
     }
 
     show() {

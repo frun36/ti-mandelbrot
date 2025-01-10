@@ -22,7 +22,18 @@ const s = new Settings(cvs.width, cvs.height, 1000);
 s.show();
 
 $("#settings-form input").on("change", (e) => {
-    s.read();
+    const id = e.target.id;
+    if (id === "itmax-input") {
+        s.itMax = parseInt(e.target.value, 10);
+    } else if (id === "zoom-input") {
+        s.zoom = parseFloat(e.target.value);
+    } else if (id === "xcenter-input") {
+        s.xCenter = parseFloat(e.target.value);
+    } else if (id === "ycenter-input") {
+        s.yCenter = parseFloat(e.target.value);
+    } else if (id === "wasm-checkbox") {
+        s.useWasm = e.target.checked;
+    }
     draw();
 });
 
@@ -97,13 +108,18 @@ function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
 function draw() {
     console.log("Drawing with", s.useWasm ? "WASM" : "JS");
     console.debug(s);
-    ctx.fillStyle = "0xEEEEEE";
-    ctx.fillRect(0, 0, cvs.width, cvs.height);
-
+    
     const start = performance.now();
 
-    const mandelbrotFn = s.useWasm ? wasm.mandelbrot : mandelbrot;
-    const data = mandelbrotFn(s.width, s.height, s.prescale / s.zoom, s.xCenter, s.yCenter, s.itMax);
+    let data;
+
+    const { width, height, xCenter, yCenter, itMax } = s;
+    const scale = s.getScale();
+    if (s.useWasm) {
+        data = wasm.mandelbrot(width, height, scale, xCenter, yCenter, itMax);
+    } else {
+        data = mandelbrot(width, height, scale, xCenter, yCenter, itMax);
+    }
 
     const end = performance.now()
     const elapsed = end - start;

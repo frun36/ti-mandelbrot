@@ -7,6 +7,7 @@
     <script defer src="./index.js" type="module"></script>
     <script src="http://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
@@ -27,6 +28,8 @@
     </header>
     <article>
         <canvas id="canvas" width="800" height="600"></canvas>
+        <p>Elapsed: <span id="elapsed-label"></span> ms</p>
+
         <div id="settings-form">
             <label for="itmax-input">Max iterations:</label>
             <input type="number" id="itmax-input" step="1" />
@@ -39,11 +42,10 @@
 
             <label for="ycenter-input">y (center):</label>
             <input type="number" id="ycenter-input" step="0.00001" />
-            
+
             <input type="checkbox" id="wasm-checkbox" />
             <label for="wasm-checkbox">Use WASM</label>
         </div>
-        <p>Elapsed: <span id="elapsed-label"></span> ms</p>
     </article>
 </body>
 

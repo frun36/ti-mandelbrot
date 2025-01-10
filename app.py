@@ -30,5 +30,4 @@ init_auth_routes(app)
 init_routes(app)
 
 if __name__ == '__main__':
-    port = 8080
-    app.run(port=port, debug=True)
+    app.run(debug=True)
