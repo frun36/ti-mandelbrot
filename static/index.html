@@ -3,17 +3,43 @@
 
 <head>
     <title>Mandelbrot set</title>
-    <script defer src="./main.js" type="module"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script defer src="./mandelbrot.js" type="module"></script>
+    <script defer src="./index.js" type="module"></script>
+    <script src="http://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header>
         <h1>Mandelbrot set</h1>
+
+        <div id="login-form">
+            <input type="text" id="username-input" />
+            <input type="password" id="password-input" />
+            <button id="login-button">Log in</button>
+            <button id="register-button">Register</button>
+        </div>
+
+        <div id="logged-in" style="display: none;">
+            <p id="username-label"></p>
+            <button id="logout-button">Log out</button>
+        </div>
     </header>
     <article>
         <canvas id="canvas" width="800" height="600"></canvas>
+        <div id="settings-form">
+            <label for="itmax-input">Max iterations:</label>
+            <input type="number" id="itmax-input" step="1" />
+
+            <label for="zoom-input">Zoom:</label>
+            <input type="number" id="zoom-input" step="0.1" />
+
+            <label for="xcenter-input">x (center):</label>
+            <input type="number" id="xcenter-input" step="0.00001" />
+
+            <label for="ycenter-input">y (center):</label>
+            <input type="number" id="ycenter-input" step="0.00001" />
+        </div>
         <p>
             <input type="checkbox" id="wasm-checkbox" checked />
             <label for="wasm-checkbox">Use WASM</label>

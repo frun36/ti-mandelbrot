@@ -34,16 +34,30 @@ export default class Settings {
     }
 
     zoomInOn(x, y, ratio = 1.5) {
-        this.xCenter = x;
-        this.yCenter = y;
+        this.xCenter = x.toFixed(5);
+        this.yCenter = y.toFixed(5);
 
-        this.zoom *= ratio;
+        this.zoom = (this.zoom * ratio).toFixed(1);
     }
 
     zoomOutOn(x, y, ratio = 1.5) {
         this.xCenter = x;
         this.yCenter = y;
 
-        this.zoom /= ratio;
+        this.zoom = (this.zoom / ratio).toFixed(1);
+    }
+
+    read() {
+        this.itMax = $("#itmax-input").val();
+        this.zoom = $("#zoom-input").val();
+        this.xCenter = $("#xcenter-input").val();
+        this.yCenter = $("#ycenter-input").val();
+    }
+
+    show() {
+        $("#itmax-input").val(this.itMax);
+        $("#zoom-input").val(this.zoom);
+        $("#xcenter-input").val(this.xCenter);
+        $("#ycenter-input").val(this.yCenter);
     }
 }

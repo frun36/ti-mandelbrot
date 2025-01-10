@@ -18,4 +18,4 @@ def init(app):
 
         # JWT valid 1 minute from now
         token = generate_jwt(payload=user_data, lifetime=1)
-        return jsonify({"data": token}), 200
+        return jsonify({"accessToken": token}), 200
