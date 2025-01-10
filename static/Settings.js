@@ -3,7 +3,7 @@ export default class Settings {
         this.width = width;
         this.height = height;
 
-        this.prescale = 0.004;
+        this.prescale = 0.005;
         this.xCenter = -0.5;
         this.yCenter = 0;
         this.zoom = 1;
@@ -30,17 +30,17 @@ export default class Settings {
     }
 
     zoomInOn(x, y, ratio = 1.5) {
-        this.xCenter = x.toFixed(5);
-        this.yCenter = y.toFixed(5);
+        this.xCenter = x;
+        this.yCenter = y;
 
-        this.zoom = (this.zoom * ratio).toFixed(1);
+        this.zoom = (this.zoom * ratio);
     }
 
     zoomOutOn(x, y, ratio = 1.5) {
         this.xCenter = x;
         this.yCenter = y;
 
-        this.zoom = (this.zoom / ratio).toFixed(1);
+        this.zoom = (this.zoom / ratio);
     }
 
     show() {

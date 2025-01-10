@@ -15,8 +15,8 @@
         <h1>Mandelbrot set</h1>
 
         <div id="login-form">
-            <input type="text" id="username-input" />
-            <input type="password" id="password-input" />
+            <input type="text" id="username-input" placeholder="username" />
+            <input type="password" id="password-input" placeholder="password" />
             <button id="login-button">Log in</button>
             <button id="register-button">Register</button>
         </div>
@@ -25,26 +25,44 @@
             <p id="username-label"></p>
             <button id="logout-button">Log out</button>
         </div>
+
     </header>
+    <nav>
+        <button id="users-button" class="nav-button">Users</button>
+        <button id="snapshots-button" class="nav-button">Snapshots</button>
+    </nav>
     <article>
-        <canvas id="canvas" width="800" height="600"></canvas>
-        <p>Elapsed: <span id="elapsed-label"></span> ms</p>
+        <div id="mandelbrot-page">
+            <canvas id="canvas" width="600" height="400"></canvas>
 
-        <div id="settings-form">
-            <label for="itmax-input">Max iterations:</label>
-            <input type="number" id="itmax-input" step="1" />
+            <div id="settings-form">
+                <div class="form-row">
+                    <label for="itmax-input">Max iterations:</label>
+                    <input type="number" id="itmax-input" step="1" />
+                </div>
+                
+                <div class="form-row">
+                    <label for="zoom-input">Zoom</label>
+                    <input type="number" id="zoom-input" step="0.01" />
+                </div>
+                
+                <div class="form-row">
+                    <label for="xcenter-input">x (center)</label>
+                    <input type="number" id="xcenter-input" step="0.00001" />
+                </div>
 
-            <label for="zoom-input">Zoom:</label>
-            <input type="number" id="zoom-input" step="0.1" />
-
-            <label for="xcenter-input">x (center):</label>
-            <input type="number" id="xcenter-input" step="0.00001" />
-
-            <label for="ycenter-input">y (center):</label>
-            <input type="number" id="ycenter-input" step="0.00001" />
-
-            <input type="checkbox" id="wasm-checkbox" />
-            <label for="wasm-checkbox">Use WASM</label>
+                <div class="form-row">
+                    <label for="ycenter-input">y (center)</label>
+                    <input type="number" id="ycenter-input" step="0.00001" />
+                </div>
+                
+                <div class="form-row">
+                    <label for="wasm-checkbox">Use WASM</label>
+                    <input type="checkbox" id="wasm-checkbox" />
+                </div>
+                
+                <p>Elapsed: <span id="elapsed-label"></span></p>
+            </div>
         </div>
     </article>
 </body>

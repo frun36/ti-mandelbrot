@@ -66,6 +66,20 @@ $("#canvas").on("contextmenu", function (event) {
     draw();
 });
 
+function colormap(ratio) {
+    if (ratio == 1) {
+        return [0, 0, 0, 255];
+    }
+
+    const level = ratio * 255.;
+
+    if (ratio > 0.5) {
+        return [level, 255, level, 255];
+    } else {
+        return [0, level, 128, 255];
+    }
+}
+
 function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
     const xMin = xCenter - 0.5 * width * scale;
     const yMin = yCenter - 0.5 * height * scale;
@@ -94,11 +108,9 @@ function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
             }
 
             const px = (pxY * width + pxX) * 4;
-            const color = it == itMax ? 0 : 255;
-            data[px] = color;
-            data[px + 1] = color;
-            data[px + 2] = color;
-            data[px + 3] = 255;
+            const color = colormap(it / itMax);
+            [data[px], data[px + 1], data[px + 2], data[px + 3]]
+                = [color[0], color[1], color[2], color[3]];
         }
     }
 
@@ -108,7 +120,7 @@ function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
 function draw() {
     console.log("Drawing with", s.useWasm ? "WASM" : "JS");
     console.debug(s);
-    
+
     const start = performance.now();
 
     let data;
@@ -123,7 +135,7 @@ function draw() {
 
     const end = performance.now()
     const elapsed = end - start;
-    $("#elapsed-label").html(elapsed.toFixed(2));
+    $("#elapsed-label").html(`${elapsed.toFixed(2)} ms`);
 
     const imageData = new ImageData(data, cvs.width, cvs.height);
     ctx.putImageData(imageData, 0, 0);

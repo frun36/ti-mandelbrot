@@ -1,8 +1,21 @@
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
-use wasm_bindgen::{prelude::*, Clamped};
+use wasm_bindgen::prelude::*;
 use web_sys::js_sys::Uint8ClampedArray;
 
 pub use wasm_bindgen_rayon::init_thread_pool;
+
+#[inline(always)]
+fn colormap(ratio: f64) -> [u8; 4] {
+    let level = (ratio * 255.) as u8;
+
+    if ratio == 1. {
+        [0, 0, 0, 255]
+    } else if ratio > 0.5 {
+        [level, 255, level, 255]
+    } else {
+        [0, level, 128, 255]
+    }
+}
 
 #[wasm_bindgen]
 pub fn mandelbrot(
@@ -39,9 +52,7 @@ pub fn mandelbrot(
                     it += 1;
                 }
 
-                let color = if it == it_max { 0u8 } else { 255u8 };
-
-                [color, color, color, 255]
+                colormap(it as f64 / it_max as f64)
             })
         })
         .collect();

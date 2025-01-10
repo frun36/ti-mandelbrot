@@ -1,0 +1,96 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    background-color: rgb(27, 30, 27);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 128px;
+    background-color: darkgreen;
+    color: whitesmoke;
+}
+
+header > * {
+    margin: 8pt;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+#login-form > * {
+    margin: 1pt;
+    padding: 2pt;
+}
+
+#logged-in {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+#logged-in > * {
+    margin: 1pt;
+    padding: 2pt;
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    background-color: green;
+}
+
+.nav-button {
+    font-size: larger;
+    padding: 8pt;
+    background-color: green;
+    border: none;
+}
+
+.nav-button:hover {
+    background-color: rgb(2, 156, 2);
+}
+
+article {
+    background-color: rgb(86, 94, 86);
+}
+
+#mandelbrot-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 10%;
+}
+
+#settings-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-row > * {
+    padding: 2pt;
+    width: 50%;
+}
