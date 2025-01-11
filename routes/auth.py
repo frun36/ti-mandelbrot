@@ -5,8 +5,8 @@ from services.jwt_handler import generate_jwt
 
 def init(app):
 
-    @app.route('/api/auth', methods=['POST'])
-    def auth():
+    @app.route('/api/login', methods=['POST'])
+    def login():
         username = request.json.get('username')
         password = request.json.get('password')
         if not username or not password:
@@ -19,3 +19,10 @@ def init(app):
         # JWT valid 1 minute from now
         token = generate_jwt(payload=user_data, lifetime=1)
         return jsonify({"accessToken": token}), 200
+    
+    @app.route('/api/register', methods=['POST'])
+    def register():
+        username = request.json.get('username')
+        password = request.json.get('password')
+        if not username or not password:
+            return jsonify({"message": "Username or password missing"}), 400

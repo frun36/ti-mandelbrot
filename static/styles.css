@@ -62,6 +62,12 @@ button:hover {
     background-color: #5ba95d;
 }
 
+button:disabled {
+    background-color: #7c8d86;
+    color: rgb(192, 192, 192);
+}
+
+
 #logged-in {
     display: flex;
     flex-direction: column;

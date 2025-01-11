@@ -4,7 +4,9 @@
 <head>
     <title>Mandelbrot set</title>
     <script defer src="./mandelbrot.js" type="module"></script>
-    <script defer src="./index.js" type="module"></script>
+    <script defer src="./snapshots.js"></script>
+    <script defer src="./users.js"></script>
+    <script defer src="./index.js"></script>
     <script src="http://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" id="MathJax-script"
@@ -38,6 +40,7 @@
     <article>
         <div id="mandelbrot-page">
             <canvas id="canvas" width="600" height="400"></canvas>
+            <canvas id="thumb-canvas" width="150" height="100" hidden></canvas>
 
             <div id="settings-form">
                 <div class="form-row">
@@ -68,8 +71,8 @@
                 <button id="reset-settings-button">Reset</button>
 
                 <div id="save-container">
-                    <input type="text" id="view-name-input" placeholder="View name" />
-                    <button disabled id="save-view-button">Save view</button>
+                    <input type="text" id="snapshot-name-input" placeholder="Snapshot name" />
+                    <button id="save-snapshot-button">Save snapshot</button>
                 </div>
 
                 <p>Elapsed: <span id="elapsed-label"></span></p>

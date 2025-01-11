@@ -4,6 +4,9 @@ import Settings from "./Settings.js";
 const cvs = $("#canvas").get(0);
 const ctx = cvs.getContext('2d');
 
+const thumbCvs = $("#thumb-canvas").get(0);
+const thumbCtx = thumbCvs.getContext("2d");
+
 console.log("Initializing WASM...");
 
 const wasm = await init();
@@ -147,6 +150,12 @@ function draw() {
     ctx.putImageData(imageData, 0, 0);
 
     console.log("Done");
+}
+
+function getBase64() {
+    thumbCtx.drawImage(cvs, 0, 0, thumbCvs.width, thumbCvs.height);
+
+    return thumbCvs.toDataURL();
 }
 
 draw();
