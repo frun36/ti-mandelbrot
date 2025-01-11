@@ -37,6 +37,12 @@ $("#settings-form input").on("change", (e) => {
     draw();
 });
 
+$("#reset-settings-button").on("click", (e) => {
+    s.reset();
+    s.show();
+    draw();
+})
+
 $("#canvas").on("click", function (event) {
     const rect = this.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -76,7 +82,7 @@ function colormap(ratio) {
     if (ratio > 0.5) {
         return [level, 255, level, 255];
     } else {
-        return [0, level, 128, 255];
+        return [0, level, 64, 255];
     }
 }
 

@@ -7,6 +7,8 @@
     <script defer src="./index.js" type="module"></script>
     <script src="http://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" id="MathJax-script"
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="./styles.css" />
 </head>
 
@@ -15,19 +17,21 @@
         <h1>Mandelbrot set</h1>
 
         <div id="login-form">
-            <input type="text" id="username-input" placeholder="username" />
-            <input type="password" id="password-input" placeholder="password" />
+            <input type="text" id="username-input" placeholder="Username" />
+            <input type="password" id="password-input" placeholder="Password" />
             <button id="login-button">Log in</button>
             <button id="register-button">Register</button>
         </div>
 
-        <div id="logged-in" style="display: none;">
+        <div id="logged-in">
             <p id="username-label"></p>
             <button id="logout-button">Log out</button>
         </div>
 
     </header>
     <nav>
+        <button id="home-button" class="nav-button">Home</button>
+        <button id="about-button" class="nav-button">About</button>
         <button id="users-button" class="nav-button">Users</button>
         <button id="snapshots-button" class="nav-button">Snapshots</button>
     </nav>
@@ -37,15 +41,20 @@
 
             <div id="settings-form">
                 <div class="form-row">
-                    <label for="itmax-input">Max iterations:</label>
+                    <label for="itmax-input">Max iterations</label>
                     <input type="number" id="itmax-input" step="1" />
                 </div>
-                
+
+                <div class="form-row">
+                    <label for="wasm-checkbox">Use WASM</label>
+                    <input type="checkbox" id="wasm-checkbox" />
+                </div>
+
                 <div class="form-row">
                     <label for="zoom-input">Zoom</label>
                     <input type="number" id="zoom-input" step="0.01" />
                 </div>
-                
+
                 <div class="form-row">
                     <label for="xcenter-input">x (center)</label>
                     <input type="number" id="xcenter-input" step="0.00001" />
@@ -55,15 +64,57 @@
                     <label for="ycenter-input">y (center)</label>
                     <input type="number" id="ycenter-input" step="0.00001" />
                 </div>
-                
-                <div class="form-row">
-                    <label for="wasm-checkbox">Use WASM</label>
-                    <input type="checkbox" id="wasm-checkbox" />
+
+                <button id="reset-settings-button">Reset</button>
+
+                <div id="save-container">
+                    <input type="text" id="view-name-input" placeholder="View name" />
+                    <button disabled id="save-view-button">Save view</button>
                 </div>
-                
+
                 <p>Elapsed: <span id="elapsed-label"></span></p>
             </div>
         </div>
+
+        <div id="about-page">
+            <h2>The Mandelbrot set</h2>
+            <h3>Overview</h3>
+            <p>
+                The Mandelbrot set is a two-dimensional set with a relatively simple definition,
+                known for its great complexity and fractal structures.
+                It is defined in the complex plane as the set of complex numbers \(c\), for which
+                the function \(f_c(z) = z^2 + c\) does not diverge to infinity when interated starting at \(z = 0\).
+            </p>
+
+            <h3>Algorithm</h3>
+            <p>
+                The algorithm used in the demo is taken from <a
+                    href="https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set#Optimized_escape_time_algorithms">Wikipedia</a>.
+                It utilizes a known property of the set, that no complex number with a real or imaginary part greater
+                than 2 can be part of the set, as a bailout condition. It calculates consecutive iterations of the
+                function, until it reaches the bailout condition or \(IT\_MAX\).
+
+                A point is assumed to be in the set, when \(IT\_MAX\) has been reached for it. It
+                then gets colored black. Otherwise, the point is colored a different shade, depending
+                on the number of iterations it took for it to reach the bailout condition.
+            </p>
+
+            <h3>Implementation</h3>
+            <p>
+                The algorithm is implemented both using JavaScript, and in Rust (compiled to WebAssembly).
+                The Rust implementation uses the <b>rayon</b> crate and utilizes WASM threads, for very
+                easy parallelization. This results in the performance of the Rust code being around 10x faster.
+            </p>
+
+            <br>
+            <p>
+                <i>Source: <a href="https://en.wikipedia.org/wiki/Mandelbrot_set">Wikipedia</a></i>
+            </p>
+        </div>
+
+        <div id="users-page"></div>
+
+        <div id="snapshots-page"></div>
     </article>
 </body>
 

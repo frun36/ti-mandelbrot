@@ -13,7 +13,7 @@ fn colormap(ratio: f64) -> [u8; 4] {
     } else if ratio > 0.5 {
         [level, 255, level, 255]
     } else {
-        [0, level, 128, 255]
+        [0, level, 64, 255]
     }
 }
 

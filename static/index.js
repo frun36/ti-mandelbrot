@@ -1,3 +1,7 @@
+$("#logged-in").hide();
+$("article").children().hide();
+$("#mandelbrot-page").show();
+
 let accessToken;
 
 $("#login-button").on("click", () => {
@@ -16,6 +20,7 @@ $("#login-button").on("click", () => {
             $("#login-form").hide();
             $("#logged-in").show();
             $("#username-label").html(`Logged in as: ${data.username}`);
+            $("#save-view-button").prop("disabled", false);
         },
         error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
     })
@@ -27,4 +32,25 @@ $("#logout-button").on("click", () => {
     $("#password-input").val("");
     $("#login-form").show();
     $("#logged-in").hide();
+    $("#save-view-button").prop("disabled", true);
+})
+
+$("#about-button").on("click", () => {
+    $("article").children().hide();
+    $("#about-page").show();
+})
+
+$("#home-button").on("click", () => {
+    $("article").children().hide();
+    $("#mandelbrot-page").show();
+})
+
+$("#users-button").on("click", () => {
+    $("article").children().hide();
+    $("#users-page").show();
+})
+
+$("#snapshots-button").on("click", () => {
+    $("article").children().hide();
+    $("#snapshots-page").show();
 })

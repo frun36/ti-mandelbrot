@@ -12,6 +12,13 @@ export default class Settings {
         this.useWasm = true;
     }
 
+    reset() {
+        this.prescale = 0.005;
+        this.xCenter = -0.5;
+        this.yCenter = 0;
+        this.zoom = 1;
+    }
+
     getCoords(x, y) {
         return [this.getXMin() + x * this.prescale / this.zoom,
         this.getYMin() + y * this.prescale / this.zoom,];
