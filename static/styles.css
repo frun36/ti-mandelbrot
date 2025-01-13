@@ -23,7 +23,7 @@ header {
     flex-wrap: wrap;
     align-items: center;
     min-height: 150px;
-    background-color: 	#446b6a;
+    background-color: #446b6a;
 }
 
 header>h1 {
@@ -41,7 +41,7 @@ header>* {
     width: 200px;
 }
 
-#login-form>*{
+#login-form>* {
     margin: 1pt;
 }
 
@@ -187,4 +187,20 @@ article {
 
 .snapshot-card:nth-child(even) {
     background-color: #3b464d;
+}
+
+.snapshot-card-buttons {
+    display: flex;
+}
+
+.snapshot-card-buttons>button {
+    width: 100%;
+}
+
+.delete-button {
+    background-color: #9c4d4d;
+}
+
+.delete-button:hover {
+    background-color: #b35e5e;
 }

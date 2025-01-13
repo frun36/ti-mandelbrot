@@ -35,7 +35,7 @@ def init(app):
         except Exception as e:
             return jsonify({"message": f"Failed to register user '{username}': {str(e)}"}), 500
 
-    @app.route("/api/save_snapshot", methods=['POST'])
+    @app.route("/api/snapshots", methods=['POST'])
     @auth_guard
     def save_snapshot():
         user_id = g.jwt_payload.get('user_id')
@@ -60,6 +60,28 @@ def init(app):
                 return jsonify({"message": f"Failed to save snapshot '{name}': unexpected"}), 500
         except Exception as e:
             return jsonify({"message": f"Failed to save snapshot '{name}': {str(e)}"}), 500
+
+    @app.route("/api/snapshots/<int:snapshot_id>", methods=['DELETE'])
+    @auth_guard
+    def delete_snapshot(snapshot_id):
+        user_id = g.jwt_payload.get('user_id')
+
+        try:
+            snapshot = db.get_snapshot_by_id(snapshot_id)
+            if snapshot is None:
+                return jsonify({"message": f"Snapshot ID {snapshot_id} not found"}), 404
+
+            if snapshot['user_id'] != user_id:
+                return jsonify({"message": f"You are not authorized to delete snapshot ID {snapshot_id}"}), 403
+
+            rows_deleted = db.delete_snapshot(snapshot_id)
+
+            if rows_deleted == 1:
+                return jsonify({"message": f"Snapshot ID {snapshot_id} deleted successfully"}), 200
+            else:
+                return jsonify({"message": f"Failed to delete snapshot ID {snapshot_id}: unexpected error"}), 500
+        except Exception as e:
+            return jsonify({"message": f"Failed to delete snapshot ID {snapshot_id}: {str(e)}"}), 500
 
     @app.route("/api/users", methods=['GET'])
     def all_users():

@@ -21,7 +21,7 @@ if (self.crossOriginIsolated) {
 await initThreadPool(navigator.hardwareConcurrency);
 console.log("Initialized thread pool")
 
-const s = new Settings(cvs.width, cvs.height, 1000);
+const s = new Settings(cvs.width, cvs.height, 500);
 s.show();
 
 $("#settings-form input").on("change", (e) => {
@@ -170,7 +170,7 @@ $("#save-snapshot-button").on("click", () => {
     console.debug(data);
     
     $.ajax({
-        url: "/api/save_snapshot",
+        url: "/api/snapshots",
         type: "POST",
         headers: {
             'Authorization': `Bearer ${accessToken}`

@@ -4,6 +4,7 @@ $("#mandelbrot-page").show();
 $("#save-snapshot-button").prop("disabled", true);
 
 let accessToken;
+let loggedInUsername;
 
 $("#login-button").on("click", () => {
     let data = {
@@ -18,10 +19,13 @@ $("#login-button").on("click", () => {
         data: JSON.stringify(data),
         success: (response) => {
             accessToken = response['accessToken'];
+            loggedInUsername = data.username;
             $("#login-form").hide();
             $("#logged-in").show();
             $("#username-label").html(`Logged in as: ${data.username}`);
             $("#save-snapshot-button").prop("disabled", false);
+            loadUsers();
+            loadSnapshots();
         },
         error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
     })
@@ -29,11 +33,14 @@ $("#login-button").on("click", () => {
 
 $("#logout-button").on("click", () => {
     accessToken = null;
+    loggedInUsername = null;
     $("#username-input").val("");
     $("#password-input").val("");
     $("#login-form").show();
     $("#logged-in").hide();
     $("#save-snapshot-button").prop("disabled", true);
+    loadUsers();
+    loadSnapshots();
 })
 
 $("#about-button").on("click", () => {
@@ -51,13 +58,14 @@ $("#register-button").on("click", () => {
         username: $("#username-input").val(),
         password: $("#password-input").val()
     };
-    
+
     $.ajax({
         url: "/api/register",
         type: "POST",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: (response) => {
+            loadUsers();
             alert(response["message"]);
         },
         error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)

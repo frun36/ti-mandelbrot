@@ -1,17 +1,21 @@
 function userCard(userId, username, snapshotCount) {
     return `
         <div class="user-card">
-            <h2>Username: ${username}</h2>
+            <h2>${username}${username === loggedInUsername ? " (you)" : ""}</h2>
             <p>Saved snapshots: ${snapshotCount}</p>
-            <button onclick="viewSnapshots(${userId})">View snapshots</button>
+            <button onclick="viewUserSnapshots(${userId})">View snapshots</button>
         </div>
     `
 }
 
-function viewUsers() {
+function viewUserSnapshots(userId) {
     $("article").children().hide();
-    $("#users-page").show();
+    $("#snapshots-page").show();
 
+    loadSnapshots(userId);
+}
+
+function loadUsers() {
     $.ajax({
         url: "/api/users",
         type: "GET",
@@ -27,5 +31,8 @@ function viewUsers() {
 }
 
 $("#users-button").on("click", () => {
-    viewUsers();
+    $("article").children().hide();
+    $("#users-page").show();
+
+    loadUsers();
 })
