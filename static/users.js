@@ -1,7 +1,7 @@
 function userCard(userId, username, snapshotCount) {
     return `
         <div class="user-card">
-            <h2>${username}</h2>
+            <h2>Username: ${username}</h2>
             <p>Saved snapshots: ${snapshotCount}</p>
             <button onclick="viewSnapshots(${userId})">View snapshots</button>
         </div>

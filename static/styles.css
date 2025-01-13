@@ -10,9 +10,9 @@ html {
 body {
     display: flex;
     flex-direction: column;
-    margin: 0;
-    padding-left: 15%;
-    padding-right: 15%;
+    margin: auto;
+    min-width: 600px;
+    max-width: 1000px;
 }
 
 header {
@@ -20,6 +20,7 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
     min-height: 150px;
     background-color: 	#446b6a;
@@ -96,7 +97,6 @@ article {
     background-color: #404c54;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 /* home */
@@ -104,14 +104,20 @@ article {
 #mandelbrot-page {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (min-width: 1000px) {
+    #mandelbrot-page {
+        justify-content: space-between;
+    }
 }
 
 #settings-form {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 100%;
     margin: 32pt;
 }
 
@@ -139,4 +145,46 @@ article {
 #about-page {
     padding-left: 16pt;
     padding-right: 16pt;
+}
+
+/* users */
+
+#users-page {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.user-card {
+    padding: 8pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user-card:nth-child(even) {
+    background-color: #3b464d;
+}
+
+/* snapshots */
+
+#snapshots-page {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.snapshot-card {
+    padding: 8pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.snapshot-card>img {
+    max-width: 300px;
+    width: 100%;
+    align-self: center;
+}
+
+.snapshot-card:nth-child(even) {
+    background-color: #3b464d;
 }

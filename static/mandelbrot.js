@@ -155,7 +155,7 @@ function draw() {
 function getThumbBase64() {
     thumbCtx.drawImage(cvs, 0, 0, thumbCvs.width, thumbCvs.height);
 
-    return thumbCvs.toDataURL();
+    return thumbCvs.toDataURL("image/webp", 0.5);
 }
 
 $("#save-snapshot-button").on("click", () => {

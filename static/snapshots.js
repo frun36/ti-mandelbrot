@@ -4,15 +4,13 @@ function snapshotCard(name, username, zoom, x, y, thumb) {
         <div class="snapshot-card">
             <img src="${thumb}" />
             <h2>${name}</h2>
-            <h3>Author: ${username}</h3>
+            <p>Author: ${username}</p>
             <button onclick="openSnapshot(${zoom}, ${x}, ${y})">Open</button>
         </div>
     `
 }
 
 function viewSnapshots(userId) {
-    console.log("Called");
-
     $("article").children().hide();
     $("#snapshots-page").show();
 

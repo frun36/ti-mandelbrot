@@ -45,3 +45,21 @@ $("#home-button").on("click", () => {
     $("article").children().hide();
     $("#mandelbrot-page").show();
 })
+
+$("#register-button").on("click", () => {
+    const data = {
+        username: $("#username-input").val(),
+        password: $("#password-input").val()
+    };
+    
+    $.ajax({
+        url: "/api/register",
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (response) => {
+            alert(response["message"]);
+        },
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+    })
+})
