@@ -52,7 +52,7 @@ def init(app):
 
         try:
             rows_updated = db.save_snapshot(
-                user_id, name, thumb_base64, zoom, x, y)
+                user_id, name, zoom, x, y, thumb_base64)
 
             if rows_updated == 1:
                 return jsonify({"message": f"Snapshot '{name}' saved successfully"}), 200

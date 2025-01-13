@@ -152,10 +152,37 @@ function draw() {
     console.log("Done");
 }
 
-function getBase64() {
+function getThumbBase64() {
     thumbCtx.drawImage(cvs, 0, 0, thumbCvs.width, thumbCvs.height);
 
     return thumbCvs.toDataURL();
 }
 
+$("#save-snapshot-button").on("click", () => {
+    const data = {
+        name: $("#snapshot-name-input").val(),
+        zoom: s.zoom,
+        x: s.xCenter,
+        y: s.yCenter,
+        thumb: getThumbBase64()
+    }
+
+    console.debug(data);
+    
+    $.ajax({
+        url: "/api/save_snapshot",
+        type: "POST",
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (response) => {
+            alert(response["message"]);
+        },
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+    })
+})
+
+export { s, draw };
 draw();

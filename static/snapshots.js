@@ -1,10 +1,11 @@
 
-function snapshotCard(thumb, name) {
+function snapshotCard(name, username, zoom, x, y, thumb) {
     return `
         <div class="snapshot-card">
             <img src="${thumb}" />
             <h2>${name}</h2>
-            <button>Open</button>
+            <h3>Author: ${username}</h3>
+            <button onclick="openSnapshot(${zoom}, ${x}, ${y})">Open</button>
         </div>
     `
 }
@@ -20,7 +21,7 @@ function viewSnapshots(userId) {
         type: "GET",
         success: (response) => {
             const html = response.map(
-                s => snapshotCard(s['thumb_base64'], s['name'])
+                s => snapshotCard(s['name'], s['username'], s['zoom'], s['x'], s['y'], s['thumb_base64'])
             ).join("\n");
 
             $("#snapshots-page").html(html == "" ? "<p>No data</p>" : html);
@@ -32,3 +33,17 @@ function viewSnapshots(userId) {
 $("#snapshots-button").on("click", () => {
     viewSnapshots();
 })
+
+function openSnapshot(zoom, xCenter, yCenter) {
+    import('./mandelbrot.js').then(m => {
+        m.s.zoom = zoom
+        m.s.xCenter = xCenter
+        m.s.yCenter = yCenter
+
+        m.s.show();
+        m.draw();
+    });
+
+    $("article").children().hide();
+    $("#mandelbrot-page").show();
+}
