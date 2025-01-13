@@ -15,8 +15,8 @@ def init(app):
         if not result:
             return jsonify({"message": "Invalid credentials"}), 400
 
-        # JWT valid 10 minutes from now
-        access_token = generate_jwt(payload=result, lifetime=10)
+        # JWT valid 1h from now
+        access_token = generate_jwt(payload=result, lifetime=60)
         return jsonify({"accessToken": access_token}), 200
 
     @app.route('/api/register', methods=['POST'])

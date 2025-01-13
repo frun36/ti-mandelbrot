@@ -128,7 +128,6 @@ function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
 
 function draw() {
     console.log("Drawing with", s.useWasm ? "WASM" : "JS");
-    console.debug(s);
 
     const start = performance.now();
 
@@ -166,8 +165,6 @@ $("#save-snapshot-button").on("click", () => {
         y: s.yCenter,
         thumb: getThumbBase64()
     }
-
-    console.debug(data);
     
     $.ajax({
         url: "/api/snapshots",

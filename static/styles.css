@@ -52,6 +52,18 @@ input {
     padding: 4pt;
 }
 
+/* Remove spinners in Chrome, Edge, and other WebKit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove spinners in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 button {
     background-color: #478d73;
     border: 1px solid rgb(0, 76, 0);
