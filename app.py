@@ -1,8 +1,7 @@
 from flask import Flask
 from flask import Flask, send_from_directory
 
-from routes.auth import init as init_auth_routes
-from routes.routes import init as init_routes
+from routes import init as init_routes
 
 
 app = Flask(__name__, static_folder='static')
@@ -26,7 +25,6 @@ def index():
     return send_from_directory(app.static_folder, 'index.html')
 
 
-init_auth_routes(app)
 init_routes(app)
 
 if __name__ == '__main__':
