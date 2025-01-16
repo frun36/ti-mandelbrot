@@ -169,15 +169,12 @@ $("#save-snapshot-button").on("click", () => {
     $.ajax({
         url: "/api/snapshots",
         type: "POST",
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
-        },
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: (response) => {
-            alert(response["message"]);
+            alert(response["msg"]);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
     })
 })
 

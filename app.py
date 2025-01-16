@@ -1,29 +1,18 @@
+from datetime import timedelta
 from flask import Flask
-from flask import Flask, send_from_directory
+from flask_jwt_extended import JWTManager
 
 from routes import init as init_routes
 
-
 app = Flask(__name__, static_folder='static')
 
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIES_SECURE'] = False
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+app.config["JWT_SECRET_KEY"] = "random-secret-key"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
-@app.after_request
-def set_headers(response):
-    # Requred for WASM threads
-    response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
-    response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
-    return response
-
-
-@app.route('/<path:filename>')
-def static_files(filename):
-    return send_from_directory(app.static_folder, filename)
-
-
-@app.route('/')
-def index():
-    return send_from_directory(app.static_folder, 'index.html')
-
+jwt = JWTManager(app)
 
 init_routes(app)
 

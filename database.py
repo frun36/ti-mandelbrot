@@ -43,6 +43,21 @@ def get_all_users():
         """)
 
 
+def get_user_by_id(user_id):
+    result = query(
+        """
+        SELECT u.id, u.username, count(s.id) as snapshot_count
+        FROM user u 
+            LEFT JOIN snapshot s ON u.id = s.user_id
+        WHERE u.id = ?
+        GROUP BY u.id
+        """, (int(user_id),))
+    if len(result) == 1:
+        return result[0]
+    else:
+        return None
+
+
 def get_all_snapshots():
     return query(
         """
@@ -59,7 +74,7 @@ def get_user_snapshots(user_id):
         FROM snapshot s
             JOIN user u ON s.user_id = u.id
         WHERE s.user_id = ?
-        """, (user_id,))
+        """, (int(user_id),))
 
 
 def register_user(username, password):
@@ -81,7 +96,7 @@ def save_snapshot(user_id, name, zoom, x, y, thumb_base64):
         """
         INSERT INTO snapshot (user_id, name, zoom, x, y, thumb_base64) 
         VALUES (?, ?, ?, ?, ?, ?)
-        """, (user_id, name, zoom, x, y, thumb_base64))
+        """, (int(user_id), name, zoom, x, y, thumb_base64))
 
 
 def get_snapshot_by_id(snapshot_id):

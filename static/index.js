@@ -3,8 +3,41 @@ $("article").children().hide();
 $("#mandelbrot-page").show();
 $("#save-snapshot-button").prop("disabled", true);
 
-let accessToken;
-let loggedInUsername;
+fetchMe((response) => {
+    if (response) {
+        displayLoggedIn(response["username"]);
+    } else {
+        console.log("Not logged in");
+    }
+})
+
+function displayLoggedIn(username) {
+    $("#login-form").hide();
+    $("#logged-in").show();
+    $("#username-label").html(`Logged in as: ${username}`);
+    $("#save-snapshot-button").prop("disabled", false);
+    loadUsers(username);
+    loadSnapshots(username);
+}
+
+function displayLoggedOut() {
+    $("#username-input").val("");
+    $("#password-input").val("");
+    $("#login-form").show();
+    $("#logged-in").hide();
+    $("#save-snapshot-button").prop("disabled", true);
+    loadUsers();
+    loadSnapshots();
+}
+
+function fetchMe(success) {
+    $.ajax({
+        url: "/api/users/me",
+        type: "GET",
+        success: success,
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
+    })
+}
 
 $("#login-button").on("click", () => {
     let data = {
@@ -13,34 +46,29 @@ $("#login-button").on("click", () => {
     };
     console.log(data);
     $.ajax({
-        url: "/api/login",
+        url: "/token/auth",
         type: "POST",
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: (response) => {
-            accessToken = response['accessToken'];
-            loggedInUsername = data.username;
-            $("#login-form").hide();
-            $("#logged-in").show();
-            $("#username-label").html(`Logged in as: ${data.username}`);
-            $("#save-snapshot-button").prop("disabled", false);
-            loadUsers();
-            loadSnapshots();
+            console.log(response);
+            displayLoggedIn(data.username);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
     })
 })
 
 $("#logout-button").on("click", () => {
-    accessToken = null;
-    loggedInUsername = null;
-    $("#username-input").val("");
-    $("#password-input").val("");
-    $("#login-form").show();
-    $("#logged-in").hide();
-    $("#save-snapshot-button").prop("disabled", true);
-    loadUsers();
-    loadSnapshots();
+    $.ajax({
+        url: "/token/remove",
+        type: "POST",
+        contentType: 'application/json',
+        success: (response) => {
+            console.log(response);
+            displayLoggedOut();
+        },
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
+    })
 })
 
 $("#about-button").on("click", () => {
@@ -66,8 +94,8 @@ $("#register-button").on("click", () => {
         data: JSON.stringify(data),
         success: (response) => {
             loadUsers();
-            alert(response["message"]);
+            alert(response["msg"]);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
     })
 })

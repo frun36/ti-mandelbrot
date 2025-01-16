@@ -14,7 +14,7 @@ function snapshotCard(id, name, username, zoom, x, y, thumb, deletable) {
     `
 }
 
-function loadSnapshots(userId=null) {
+function loadSnapshots(loggedInUsername = null, userId = null) {
     $.ajax({
         url: userId ? `/api/snapshots/${userId}` : "/api/snapshots",
         type: "GET",
@@ -33,7 +33,7 @@ function loadSnapshots(userId=null) {
 
             $("#snapshots-page").html(html == "" ? "<p>No data</p>" : html);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
     })
 }
 
@@ -41,21 +41,22 @@ $("#snapshots-button").on("click", () => {
     $("article").children().hide();
     $("#snapshots-page").show();
 
-    loadSnapshots();
+    fetchMe(response => {
+        loadSnapshots(response?.username);
+    });
 })
 
 function deleteSnapshot(snapshotId) {
     $.ajax({
         url: `/api/snapshots/${snapshotId}`,
         type: "DELETE",
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
-        },
         success: (response) => {
-            loadSnapshots();
-            alert(response["message"]);
+            fetchMe(response => {
+                loadSnapshots(response?.username);
+            });
+            alert(response["msg"]);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['message']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
     })
 }
 
