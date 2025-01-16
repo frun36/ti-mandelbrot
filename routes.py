@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta, timezone
+from functools import wraps
 from flask import jsonify, request, send_from_directory
 from flask_jwt_extended import (create_access_token, create_refresh_token, get_jwt, get_jwt_identity,
-                                jwt_required, set_access_cookies, set_refresh_cookies, unset_jwt_cookies)
+                                jwt_required, set_access_cookies, set_refresh_cookies, unset_jwt_cookies, verify_jwt_in_request)
+from jwt import ExpiredSignatureError
 import database as db
 
 
@@ -42,8 +44,8 @@ def init(app):
         if not username or not password:
             return jsonify({"msg": "Username or password missing"}), 400
 
-        result = db.authenticate(username, password)[0]
-        if not result:
+        result = db.authenticate(username, password)
+        if result is None:
             return jsonify({"msg": "Invalid credentials"}), 401
 
         access_token = create_access_token(identity=str(result['user_id']))
@@ -78,9 +80,9 @@ def init(app):
             return jsonify({"msg": f"Failed to register user '{username}': {str(e)}"}), 500
 
     @app.route("/api/users/me", methods=['GET'])
-    @jwt_required(optional=True)
     def user():
         try:
+            verify_jwt_in_request(optional=True)
             user_id = get_jwt_identity()
 
             if user_id is None:
@@ -89,6 +91,8 @@ def init(app):
             result = db.get_user_by_id(user_id)
 
             return jsonify(result), 200
+        except ExpiredSignatureError:
+            return jsonify(None), 200 
         except Exception as e:
             return jsonify({"msg": str(e)}), 500
         

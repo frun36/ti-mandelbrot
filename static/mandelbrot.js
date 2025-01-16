@@ -27,7 +27,13 @@ s.show();
 $("#settings-form input").on("change", (e) => {
     const id = e.target.id;
     if (id === "itmax-input") {
-        s.itMax = parseInt(e.target.value, 10);
+        const newItMax = parseInt(e.target.value, 10);
+        if (newItMax <= 0) {
+            alert("Max iterations must be larger than 0");
+            $("#itmax-input").val(s.itMax);
+        } else {
+            s.itMax = newItMax;
+        }
     } else if (id === "zoom-input") {
         s.zoom = parseFloat(e.target.value);
     } else if (id === "xcenter-input") {
@@ -174,7 +180,13 @@ $("#save-snapshot-button").on("click", () => {
         success: (response) => {
             alert(response["msg"]);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`),
+        statusCode: {
+            401: () => {
+                alert("Your credentials have expired. Log in and try again");
+                displayLoggedOut();
+            }
+        }
     })
 })
 
@@ -207,7 +219,16 @@ function animate(timestamp) {
 $("#animate-button").on("click", function () {
     if (!isRunning) {
         isRunning = true;
-        zoomSpeed = parseFloat($("#zoom-speed-input").val());
+        const newZoomSpeed = parseFloat($("#zoom-speed-input").val());
+
+        if (newZoomSpeed <= 0) {
+            alert("Zoom speed must be larger than 0");
+            $("#zoom-speed-input").val(zoomSpeed);
+            return;
+        } else {
+            zoomSpeed = newZoomSpeed;
+        }
+
         $(this).css({ "background-color": "#b35e5e" });
         $(this).hover(function () { $(this).css({ "background-color": "#b35e5e" }) },
             function () { $(this).css({ "background-color": "#9c4d4d" }) });

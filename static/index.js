@@ -34,7 +34,12 @@ function fetchMe(success) {
     $.ajax({
         url: "/api/users/me",
         type: "GET",
-        success: success,
+        success: (response) => {
+            if (!response) {
+                displayLoggedOut();
+            }
+            success(response);
+        },
         error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
     })
 }

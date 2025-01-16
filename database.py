@@ -85,10 +85,15 @@ def register_user(username, password):
 
 
 def authenticate(username, password):
-    return query(
+    result = query(
         """
         SELECT id as user_id FROM user WHERE username = ? AND password = ?
         """, (username, password))
+
+    if len(result) == 1:
+        return result[0]
+    else:
+        return None
 
 
 def save_snapshot(user_id, name, zoom, x, y, thumb_base64):

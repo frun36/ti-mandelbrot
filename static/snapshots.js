@@ -54,9 +54,14 @@ function deleteSnapshot(snapshotId) {
             fetchMe(response => {
                 loadSnapshots(response?.username);
             });
-            alert(response["msg"]);
         },
-        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`)
+        error: (xhr, status, error) => alert(`Error: ${xhr.responseJSON['msg']}`),
+        statusCode: {
+            401: () => {
+                alert("Your credentials have expired. Log in and try again");
+                displayLoggedOut();
+            }
+        }
     })
 }
 
