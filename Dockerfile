@@ -16,6 +16,6 @@ RUN apt-get update && \
 
 RUN sqlite3 /app/database/data.db < /app/database/init.sql
 
-EXPOSE 5000
+EXPOSE 80
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
