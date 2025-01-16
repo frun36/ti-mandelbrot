@@ -38,11 +38,10 @@ function loadSnapshots(loggedInUsername = null, userId = null) {
 }
 
 $("#snapshots-button").on("click", () => {
-    $("article").children().hide();
-    $("#snapshots-page").show();
-
     fetchMe(response => {
         loadSnapshots(response?.username);
+        $("article").children().hide();
+        $("#snapshots-page").show();
     });
 })
 

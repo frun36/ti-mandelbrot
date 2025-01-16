@@ -3,6 +3,8 @@ $("article").children().hide();
 $("#mandelbrot-page").show();
 $("#save-snapshot-button").prop("disabled", true);
 
+let loggedIn = false;
+
 fetchMe((response) => {
     if (response) {
         displayLoggedIn(response["username"]);
@@ -12,6 +14,7 @@ fetchMe((response) => {
 })
 
 function displayLoggedIn(username) {
+    loggedIn = true;
     $("#login-form").hide();
     $("#logged-in").show();
     $("#username-label").html(`Logged in as: ${username}`);
@@ -21,6 +24,7 @@ function displayLoggedIn(username) {
 }
 
 function displayLoggedOut() {
+    loggedIn = false;
     $("#username-input").val("");
     $("#password-input").val("");
     $("#login-form").show();
@@ -35,7 +39,7 @@ function fetchMe(success) {
         url: "/api/users/me",
         type: "GET",
         success: (response) => {
-            if (!response) {
+            if (loggedIn && !response) {
                 displayLoggedOut();
             }
             success(response);

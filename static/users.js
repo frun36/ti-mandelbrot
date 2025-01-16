@@ -9,11 +9,10 @@ function userCard(userId, username, snapshotCount, loggedIn) {
 }
 
 function viewUserSnapshots(userId) {
-    $("article").children().hide();
-    $("#snapshots-page").show();
-
     fetchMe(response => {
         loadSnapshots(response?.username, userId);
+        $("article").children().hide();
+        $("#snapshots-page").show();
     });
 }
 
