@@ -55,7 +55,7 @@
 
                 <div class="form-row">
                     <label for="zoom-input">Zoom</label>
-                    <input type="number" id="zoom-input" step="0.01">
+                    <input type="number" id="zoom-input" step="0.00001">
                 </div>
 
                 <div class="form-row">
@@ -76,6 +76,13 @@
                 </div>
 
                 <p>Elapsed: <span id="elapsed-label"></span></p>
+
+                <br>
+
+                <div class="form-row">
+                    <label for="zoom-speed-input">Zoom ratio</label>
+                    <input type="number" id="zoom-speed-input" step="0.001">
+                </div>
 
                 <button id="animate-button">Animate</button>
             </div>

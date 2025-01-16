@@ -186,7 +186,9 @@ draw();
 let startTime = null;
 let animId = null;
 let isRunning = false;
-const zoomSpeed = 1.01;
+let zoomSpeed = 1.01;
+
+$("#zoom-speed-input").val(zoomSpeed);
 
 function animate(timestamp) {
     if (!startTime) {
@@ -205,6 +207,7 @@ function animate(timestamp) {
 $("#animate-button").on("click", function () {
     if (!isRunning) {
         isRunning = true;
+        zoomSpeed = parseFloat($("#zoom-speed-input").val());
         $(this).css({ "background-color": "#b35e5e" });
         $(this).hover(function () { $(this).css({ "background-color": "#b35e5e" }) },
             function () { $(this).css({ "background-color": "#9c4d4d" }) });
