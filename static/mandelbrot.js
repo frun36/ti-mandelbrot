@@ -165,7 +165,7 @@ $("#save-snapshot-button").on("click", () => {
         y: s.yCenter,
         thumb: getThumbBase64()
     }
-    
+
     $.ajax({
         url: "/api/snapshots",
         type: "POST",
@@ -180,3 +180,44 @@ $("#save-snapshot-button").on("click", () => {
 
 export { s, draw };
 draw();
+
+// Animation
+
+let startTime = null;
+let animId = null;
+let isRunning = false;
+const zoomSpeed = 1.01;
+
+function animate(timestamp) {
+    if (!startTime) {
+        startTime = timestamp;
+    } else {
+        const elapsed = timestamp - startTime;
+        s.zoom *= Math.pow(zoomSpeed, elapsed / 1000);
+        $("#zoom-input").val(s.zoom.toPrecision(5));
+    }
+
+    draw();
+
+    animId = requestAnimationFrame(animate);
+}
+
+$("#animate-button").on("click", function () {
+    if (!isRunning) {
+        isRunning = true;
+        $(this).css({ "background-color": "#b35e5e" });
+        $(this).hover(function () { $(this).css({ "background-color": "#b35e5e" }) },
+            function () { $(this).css({ "background-color": "#9c4d4d" }) });
+        $(this).html("Stop")
+        requestAnimationFrame(animate);
+    } else {
+        isRunning = false;
+        startTime = null;
+        $(this).css({ "background-color": "#478d73" });
+        $(this).hover(function () { $(this).css({ "background-color": "#5ba95d" }) },
+            function () { $(this).css({ "background-color": "#478d73" }) })
+        $(this).html("Animate")
+        cancelAnimationFrame(animId);
+        s.show();
+    }
+})

@@ -52,9 +52,9 @@ export default class Settings {
 
     show() {
         $("#itmax-input").val(this.itMax);
-        $("#zoom-input").val(this.zoom);
-        $("#xcenter-input").val(this.xCenter);
-        $("#ycenter-input").val(this.yCenter);
+        $("#zoom-input").val(this.zoom.toPrecision(5));
+        $("#xcenter-input").val(this.xCenter.toPrecision(5));
+        $("#ycenter-input").val(this.yCenter.toPrecision(5));
         $("#wasm-checkbox").prop("checked", this.useWasm);
     }
 }
