@@ -133,7 +133,7 @@ function mandelbrot(width, height, scale, xCenter, yCenter, itMax) {
 }
 
 function draw() {
-    console.log("Drawing with", s.useWasm ? "WASM" : "JS");
+    console.debug("Drawing with", s.useWasm ? "WASM" : "JS");
 
     const start = performance.now();
 
@@ -154,7 +154,7 @@ function draw() {
     const imageData = new ImageData(data, cvs.width, cvs.height);
     ctx.putImageData(imageData, 0, 0);
 
-    console.log("Done");
+    console.debug("Done");
 }
 
 function getThumbBase64() {
@@ -195,40 +195,39 @@ draw();
 
 // Animation
 
-let startTime = null;
+let prevTimestamp = null;
 let animId = null;
 let isRunning = false;
-let zoomSpeed = 1.01;
+let zoomSpeed = 2.;
 
 $("#zoom-speed-input").val(zoomSpeed);
 
-function animate(timestamp) {
-    if (!startTime) {
-        startTime = timestamp;
+$("#zoom-speed-input").on("change", (e) => {
+    const newZoomSpeed = parseFloat(e.target.value);
+
+    if (newZoomSpeed <= 0) {
+        alert("Zoom speed must be larger than 0");
+        $("#zoom-speed-input").val(zoomSpeed);
     } else {
-        const elapsed = timestamp - startTime;
+        zoomSpeed = newZoomSpeed;
+    }
+})
+
+function animate(timestamp) {
+    if (prevTimestamp) {
+        const elapsed = timestamp - prevTimestamp;
         s.zoom *= Math.pow(zoomSpeed, elapsed / 1000);
         $("#zoom-input").val(s.zoom.toPrecision(5));
+        draw();
     }
 
-    draw();
-
+    prevTimestamp = timestamp;
     animId = requestAnimationFrame(animate);
 }
 
 $("#animate-button").on("click", function () {
     if (!isRunning) {
         isRunning = true;
-        const newZoomSpeed = parseFloat($("#zoom-speed-input").val());
-
-        if (newZoomSpeed <= 0) {
-            alert("Zoom speed must be larger than 0");
-            $("#zoom-speed-input").val(zoomSpeed);
-            return;
-        } else {
-            zoomSpeed = newZoomSpeed;
-        }
-
         $(this).css({ "background-color": "#b35e5e" });
         $(this).hover(function () { $(this).css({ "background-color": "#b35e5e" }) },
             function () { $(this).css({ "background-color": "#9c4d4d" }) });
@@ -236,7 +235,7 @@ $("#animate-button").on("click", function () {
         requestAnimationFrame(animate);
     } else {
         isRunning = false;
-        startTime = null;
+        prevTimestamp = null;
         $(this).css({ "background-color": "#478d73" });
         $(this).hover(function () { $(this).css({ "background-color": "#5ba95d" }) },
             function () { $(this).css({ "background-color": "#478d73" }) })
